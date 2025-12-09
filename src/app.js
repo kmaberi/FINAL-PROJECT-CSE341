@@ -37,6 +37,8 @@ app.get('/api-docs.json', (req, res) => {
 })
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc))
 
+app.use('/static', express.static(path.join(__dirname, '..', 'public')))
+
 app.use((err, req, res, next) => {
   const status = err.status || 500
   res.status(status).json({ message: err.message || 'Server error' })
