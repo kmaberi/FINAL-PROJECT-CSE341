@@ -32,6 +32,10 @@ app.get('/api/docs.json', (req, res) => {
   res.sendFile(path.join(__dirname, 'swagger', 'swagger.json'))
 })
 app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc))
+app.get('/api-docs.json', (req, res) => {
+  res.sendFile(path.join(__dirname, 'swagger', 'swagger.json'))
+})
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc))
 
 app.use((err, req, res, next) => {
   const status = err.status || 500
@@ -39,4 +43,3 @@ app.use((err, req, res, next) => {
 })
 
 module.exports = app
-
