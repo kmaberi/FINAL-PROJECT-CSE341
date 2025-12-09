@@ -21,7 +21,8 @@
     "mongoose": "^8.6.2",
     "morgan": "^1.10.0",
     "passport": "^0.7.0",
-    "passport-github2": "^0.1.12"
+    "passport-github2": "^0.1.12",
+    "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
     "nodemon": "^3.1.0"

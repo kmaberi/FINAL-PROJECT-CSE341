@@ -1,0 +1,119 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Football Management API",
+    "version": "1.0.0",
+    "description": "API for managing teams, players, matches, and users"
+  },
+  "servers": [{ "url": "http://localhost:8080" }],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "Team": {
+        "type": "object",
+        "properties": {
+          "_id": { "type": "string" },
+          "name": { "type": "string" },
+          "country": { "type": "string" },
+          "coach": { "type": "string" }
+        },
+        "required": ["name", "country", "coach"]
+      },
+      "Player": {
+        "type": "object",
+        "properties": {
+          "_id": { "type": "string" },
+          "name": { "type": "string" },
+          "team": { "type": "string" },
+          "position": { "type": "string" }
+        },
+        "required": ["name", "team", "position"]
+      },
+      "Match": {
+        "type": "object",
+        "properties": {
+          "__id": { "type": "string" },
+          "team1": { "type": "string" },
+          "team2": { "type": "string" },
+          "score": { "type": "string" },
+          "date": { "type": "string", "format": "date-time" }
+        },
+        "required": ["team1", "team2", "date"]
+      },
+      "AuthRequest": {
+        "type": "object",
+        "properties": {"username": {"type": "string"}, "password": {"type": "string"}},
+        "required": ["username", "password"]
+      }
+    }
+  },
+  "paths": {
+    "/api/teams": {
+      "get": {
+        "summary": "List teams",
+        "responses": {"200": {"description": "OK", "content": {"application/json": {"schema": {"type": "array", "items": {"$ref": "#/components/schemas/Team"}}}}}}
+      },
+      "post": {
+        "summary": "Create team",
+        "security": [{"bearerAuth": []}],
+        "requestBody": {"required": true, "content": {"application/json": {"schema": {"$ref": "#/components/schemas/Team"}}}},
+        "responses": {"201": {"description": "Created"}, "400": {"description": "Bad Request"}, "401": {"description": "Unauthorized"}}
+      }
+    },
+    "/api/teams/{id}": {
+      "get": {
+        "summary": "Get team",
+        "parameters": [{"name": "id", "in": "path", "required": true, "schema": {"type": "string"}}],
+        "responses": {"200": {"description": "OK"}, "404": {"description": "Not Found"}}
+      },
+      "put": {
+        "summary": "Update team",
+        "security": [{"bearerAuth": []}],
+        "parameters": [{"name": "id", "in": "path", "required": true, "schema": {"type": "string"}}],
+        "requestBody": {"required": true, "content": {"application/json": {"schema": {"$ref": "#/components/schemas/Team"}}}},
+        "responses": {"200": {"description": "OK"}, "400": {"description": "Bad Request"}, "404": {"description": "Not Found"}, "401": {"description": "Unauthorized"}}
+      },
+      "delete": {
+        "summary": "Delete team",
+        "security": [{"bearerAuth": []}],
+        "parameters": [{"name": "id", "in": "path", "required": true, "schema": {"type": "string"}}],
+        "responses": {"200": {"description": "Deleted"}, "404": {"description": "Not Found"}, "401": {"description": "Unauthorized"}}
+      }
+    },
+    "/api/players": {
+      "get": {"summary": "List players", "responses": {"200": {"description": "OK"}}},
+      "post": {
+        "summary": "Create player",
+        "security": [{"bearerAuth": []}],
+        "requestBody": {"required": true, "content": {"application/json": {"schema": {"$ref": "#/components/schemas/Player"}}}},
+        "responses": {"201": {"description": "Created"}, "400": {"description": "Bad Request"}, "401": {"description": "Unauthorized"}}
+      }
+    },
+    "/api/players/{id}": {
+      "get": {"summary": "Get player", "parameters": [{"name": "id", "in": "path", "required": true, "schema": {"type": "string"}}], "responses": {"200": {"description": "OK"}, "404": {"description": "Not Found"}}},
+      "put": {"summary": "Update player", "security": [{"bearerAuth": []}], "parameters": [{"name": "id", "in": "path", "required": true, "schema": {"type": "string"}}], "requestBody": {"required": true, "content": {"application/json": {"schema": {"$ref": "#/components/schemas/Player"}}}}, "responses": {"200": {"description": "OK"}, "400": {"description": "Bad Request"}, "404": {"description": "Not Found"}, "401": {"description": "Unauthorized"}}},
+      "delete": {"summary": "Delete player", "security": [{"bearerAuth": []}], "parameters": [{"name": "id", "in": "path", "required": true, "schema": {"type": "string"}}], "responses": {"200": {"description": "Deleted"}, "404": {"description": "Not Found"}, "401": {"description": "Unauthorized"}}}
+    },
+    "/api/matches": {
+      "get": {"summary": "List matches", "responses": {"200": {"description": "OK"}}},
+      "post": {"summary": "Create match", "security": [{"bearerAuth": []}], "requestBody": {"required": true, "content": {"application/json": {"schema": {"$ref": "#/components/schemas/Match"}}}}, "responses": {"201": {"description": "Created"}, "400": {"description": "Bad Request"}, "401": {"description": "Unauthorized"}}}
+    },
+    "/api/matches/{id}": {
+      "get": {"summary": "Get match", "parameters": [{"name": "id", "in": "path", "required": true, "schema": {"type": "string"}}], "responses": {"200": {"description": "OK"}, "404": {"description": "Not Found"}}},
+      "put": {"summary": "Update match", "security": [{"bearerAuth": []}], "parameters": [{"name": "id", "in": "path", "required": true, "schema": {"type": "string"}}], "requestBody": {"required": true, "content": {"application/json": {"schema": {"$ref": "#/components/schemas/Match"}}}}, "responses": {"200": {"description": "OK"}, "400": {"description": "Bad Request"}, "404": {"description": "Not Found"}, "401": {"description": "Unauthorized"}}},
+      "delete": {"summary": "Delete match", "security": [{"bearerAuth": []}], "parameters": [{"name": "id", "in": "path", "required": true, "schema": {"type": "string"}}], "responses": {"200": {"description": "Deleted"}, "404": {"description": "Not Found"}, "401": {"description": "Unauthorized"}}}
+    },
+    "/api/auth/login": {
+      "post": {"summary": "Login", "requestBody": {"required": true, "content": {"application/json": {"schema": {"$ref": "#/components/schemas/AuthRequest"}}}}, "responses": {"200": {"description": "OK"}, "400": {"description": "Invalid credentials"}}}
+    },
+    "/api/auth/register": {
+      "post": {"summary": "Register", "requestBody": {"required": true, "content": {"application/json": {"schema": {"$ref": "#/components/schemas/AuthRequest"}}}}, "responses": {"201": {"description": "Created"}, "400": {"description": "Bad Request"}}}
+    }
+  }
+}
