@@ -5,7 +5,7 @@
     "version": "1.0.0",
     "description": "API for managing teams, players, matches, and users"
   },
-  "servers": [{ "url": "http://localhost:8080" }],
+  "servers": [{ "url": "/" }],
   "components": {
     "securitySchemes": {
       "bearerAuth": {

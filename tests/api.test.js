@@ -1,17 +1,9 @@
 const request = require('supertest')
 const app = require('../src/app')
-const mongoose = require('mongoose')
-const dotenv = require('dotenv')
-dotenv.config()
+const connectDB = require('../src/config/db')
 
 beforeAll(async () => {
-  const uri = process.env.MONGODB_URI || process.env.MONGO_URI || 'mongodb://localhost:27017/football_db'
-  const dbName = process.env.DB_NAME || 'football_db'
-  await mongoose.connect(uri, { dbName })
-}, 20000)
-
-afterAll(async () => {
-  await mongoose.disconnect()
+  connectDB()
 })
 
 describe('GET collections', () => {
